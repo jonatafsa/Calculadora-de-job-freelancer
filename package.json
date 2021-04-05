@@ -7,7 +7,7 @@
     "dev": "nodemon .",
     "test": "echo \"Error: no test especified\" && exit1"
   },
-  "author": "",
+  "author": "jonatafsa <jonatafsa.js@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.6",
@@ -15,5 +15,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
-  }
+  },
+  "repository": "git@github.com:jonatafsa/Calculadora-de-job-freelancer.git"
 }

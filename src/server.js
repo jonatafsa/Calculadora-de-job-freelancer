@@ -7,6 +7,12 @@ server.set('view engine', 'ejs')
 
 //Definindo a pasta com os arquivos publicos
 server.use(express.static('public'))
+
+//user o req.body
+server.use(express.urlencoded({ extended: true }))
+
+//import das rotas
 server.use(routes)
 
-server.listen(3000, () => console.log('Server iniciado.'))
+
+server.listen(3000, () => console.log('Server started.'))

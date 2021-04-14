@@ -23,5 +23,8 @@ module.exports = {
   },
   update(newJob) {
     data = newJob
+  },
+  create(newJob) {
+    data.push(newJob)
   }
 }

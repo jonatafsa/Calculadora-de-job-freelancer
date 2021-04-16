@@ -8,12 +8,9 @@ module.exports = {
     return res.render('job')
   },
 
-  save(req, res) {
+  async save(req, res) {
 
-    const lastID = Job.get()[Job.get().length - 1]?.id || 0
-
-    Job.create({
-      id: lastID + 1,
+    await Job.create({
       name: req.body.name,
       'daily-hours': req.body['daily-hours'],
       'total-hours': req.body['total-hours'],
@@ -23,55 +20,37 @@ module.exports = {
     return res.redirect('/')
   },
 
-  show(req, res) {
+  async show(req, res) {
 
+    const jobs = await Job.get()
     const jobID = req.params.id
-    const job = Job.get().find(job => Number(job.id) === Number(jobID))
-
-    if (!job) {
-      return res.send('Job Not Found')
-    }
-
-    job.budget = JobUtils.calculateBudget(job, Profile.get()['value-hour'])
-
-    return res.render('job-edit', { job })
-  },
-
-  update(req, res) {
-    const jobID = req.params.id
-    const jobs = Job.get()
-
     const job = jobs.find(job => Number(job.id) === Number(jobID))
 
     if (!job) {
       return res.send('Job Not Found')
     }
 
+    job.budget = JobUtils.calculateBudget(job, await Profile.get()['value-hour'])
+
+    return res.render('job-edit', { job })
+  },
+
+  async update(req, res) {
+    const jobID = req.params.id
+
     const updatedJob = {
-      ...job,
       name: req.body.name,
       'total-hours': req.body['total-hours'],
       'daily-hours': req.body['daily-hours']
     }
 
-    const newJobs = Job.get().map(job => {
-
-      if (Number(job.id) === Number(jobID)) {
-        job = updatedJob
-      }
-
-      return job
-    })
-
-    Job.update(newJobs)
+    await Job.update(updatedJob, jobID)
     return res.redirect('/job/' + jobID)
   },
 
-  delete(req, res) {
+  async delete(req, res) {
     const jobId = req.params.id
-    const deleteJob = Job.get().filter(job => Number(job.id) !== Number(jobId))
-
-    Job.update(deleteJob)
+    await Job.delete(jobId)
     return res.redirect('/')
   }
 }

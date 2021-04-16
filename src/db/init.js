@@ -33,14 +33,16 @@ const initDB = {
   monthly_budget, 
   days_per_week, 
   hours_per_day, 
-  vacation_per_year
+  vacation_per_year,
+  value_hour
   ) VALUES (
     "Jonata Santos",
     "https://github.com/jonatafsa.png",
     3500,
     5,
     8,
-    4
+    4,
+    70
   )`
 
     const jobInsert = `INSERT INTO jobs (

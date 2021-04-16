@@ -9,18 +9,19 @@ module.exports = {
   async index(req, res) {
 
     const profile = await Profile.get()
+    const jobs = await Job.get()
 
     let statusCount = {
       progress: 0,
       done: 0,
-      total: Job.get().length
+      total: jobs.length
     }
 
     //Calculo de Quantidade de horas livres
     let jobTotalHours = 0
     
     //Calculo de tempo restante do JOB
-    const updateJobs = Job.get().map((job) => {
+    const updateJobs = jobs.map((job) => {
       const remaining = JobUtils.remainingDays(job)
       const status = remaining <= 0 ? 'done' : 'progress' 
 
